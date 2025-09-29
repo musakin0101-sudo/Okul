@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okyanusun Gizemli Derinlikleri - Soyut Keşif (20 Canlı)</title>
+    <style>
+        /* Modern Renk Paleti ve Fontlar */
+        :root {
+            --mavi-derin: #000F1F;
+            --mavi-orta: #2B4461;
+            --mavi-yuzey: #8BB0C9;
+            --aksen-fosfor: #95F3D1; 
+            --aksen-mercan: #FF7043;
+            --beyaz: #EAEAEA;
+            --golge: rgba(0, 0, 0, 0.7);
+            --font-baslik: 'Montserrat', sans-serif;
+            --font-govde: 'Lato', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Lato:wght@300;400&display=swap');
+
+        body {
+            font-family: var(--font-govde);
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #A0B9C9 0%, var(--mavi-orta) 60vh, var(--mavi-derin) 150vh, #000810 300vh);
+            background-attachment: fixed; 
+            color: var(--beyaz); 
+            scroll-behavior: smooth;
+        }
+
+        /* Başlık Animasyonu ve Tipografi */
+        h1, h2, h3 { font-family: var(--font-baslik); }
+
+        h1 {
+            font-size: 2.8em; 
+            color: var(--mavi-derin); 
+            animation: waveText 3s infinite alternate;
+            text-align: center;
+        }
+        @keyframes waveText {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); } 
+            100% { transform: translateY(0px); }
+        }
+
+        h2 {
+            font-size: 2em;
+            border-left: 4px solid var(--aksen-fosfor);
+            padding-left: 12px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 8px rgba(149, 243, 209, 0.4);
+        }
+
+        .container {
+            width: 95%; 
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 0; 
+        }
+
+        header {
+            padding: 80px 10px 60px;
+            background: linear-gradient(180deg, #A0B9C9 0%, var(--mavi-yuzey) 100%);
+            box-shadow: 0 4px 10px var(--golge);
+        }
+        header p { color: var(--mavi-orta); opacity: 0.9; text-align: center;}
+
+        /* Derinlik Bölümleri ve Kontrast Ayarları */
+        .derinlik-bolumu {
+            padding: 60px 10px;
+            background-color: rgba(255, 255, 255, 0.03); 
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        
+        #yuzey h2, #yuzey p {
+             color: var(--mavi-derin); 
+             border-left-color: var(--mavi-orta);
+        }
+        #yuzey .canli-karti {
+            background-color: rgba(0, 0, 0, 0.05); 
+            color: var(--mavi-derin); 
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        #yuzey .canli-karti h3 {
+            color: var(--mavi-orta); 
+            text-shadow: none;
+        }
+
+
+        /* Canlı Kartları Stili ve Etkileşim */
+        .canli-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Mobil için daha geniş kartlar, masaüstü için 4'lü düzen */
+            gap: 20px; 
+            margin-top: 30px;
+        }
+
+        .canli-karti {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px); 
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--golge);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--aksen-fosfor); /* Varsayılan aksen rengi */
+        }
+        
+        /* Kart Rengine Göre Aksan Belirleme (Estetik için) */
+        .canli-karti[data-color="yuzey"] { border-left-color: #55B4B0; }
+        .canli-karti[data-color="ara"] { border-left-color: #8C52FF; }
+        .canli-karti[data-color="derin"] { border-left-color: #FF6F61; }
+        .canli-karti[data-color="ekstra"] { border-left-color: #FFEE93; }
+
+        /* Biyolüminesans Vurgu Efekti */
+        .canli-karti::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Kartın sol border rengini kullanarak hafif parlama efekti */
+            background: radial-gradient(circle at center, var(--aksen-fosfor) 0%, transparent 70%); 
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            mix-blend-mode: screen; /* Daha iyi ışık efekti */
+        }
+
+        .canli-karti:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--golge);
+            z-index: 2;
+        }
+        .canli-karti:hover::before {
+            opacity: 0.3; /* Hover'da daha belirgin parlama */
+        }
+
+        .canli-karti h3 { color: var(--aksen-fosfor); z-index: 3; position: relative;}
+        .canli-karti p { 
+            font-size: 0.9em;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            z-index: 3; position: relative;
+        }
+        .canli-karti:hover p { opacity: 1; }
+
+        /* Ekstra Mobil İyileştirmeler */
+        @media (min-width: 768px) {
+            h1 { font-size: 4em; }
+            h2 { font-size: 2.5em; }
+            .canli-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; letter-spacing: 1px;}
+            h2 { font-size: 1.5em; margin-bottom: 20px;}
+            .container { padding: 20px 0;}
+            .canli-grid { grid-template-columns: 1fr; gap: 15px;} /* Tek sütunlu, akıcı dikey akış */
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>OKYANUSUN DERİN SIRLARI</h1>
+        <p>Gizemli karanlığın 20 benzersiz sakini. Her bir kart, keşfedilmeyi bekleyen bir biyolüminesans fısıltısı taşır.</p>
+    </header>
+
+    <section id="yuzey" class="derinlik-bolumu">
+        <div class="container">
+            <h2>Epipelajik Bölge | Parlak Işıklar</h2>
+            <p>Güneş ışığının bol olduğu, ancak burada bile inanılmaz derecede garip formların bulunduğu bölge.</p>
+            
+            <div class="canli-grid">
+                <div class="canli-karti" data-color="yuzey">
+                    <h3>Velella (Deniz Yelkeni)</h3>
+                    <p>Mavi renkli, suyun yüzeyinde yelken gibi rüzgarla süzülen koloni organizması.</p>
+                </div>
+                <div class="canli-karti" data-color="yuzey">
+                    <h3>Siphonophore</h3>
+                    <p>Binlerce minik bireyden oluşan, devasa boyutlara ulaşabilen zincir formlu canlı.</p>
+                </div>
+                <div class="canli-karti" data-color="yuzey">
+                    <h3>Glaucus Atlanticus (Mavi Ejder)</h3>
+                    <p>Yüzeyde baş aşağı yüzen, parlak mavi renkli, deniz sümüklü böceği.</p>
+                </div>
+                <div class="canli-karti" data-color="yuzey">
+                    <h3>Mola Mola (Güneş Balığı)</h3>
+                    <p>Dünyanın en ağır kemikli balığı, güneşte yüzerek ısınır.</p>
+                </div>
+                <div class="canli-karti" data-color="yuzey">
+                    <h3>Physalia (Portekiz Savaşı)</h3>
+                    <p>Ölümcül zehire sahip, yüzeyde büyük bir gaz kesesiyle süzülen sıradışı bir sifonofor.</p>
+                </div>
+                <div class="canli-karti" data-color="yuzey">
+                    <h3>Oceanic White-tip Shark (Beyaz Uçlu Köpekbalığı)</h3>
+                    <p>Açık okyanusun agresif yırtıcısı, genelde yüzeyde avlanır.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="aralik" class="derinlik-bolumu">
+        <div class="container">
+            <h2>Mezopelajik Bölge | Alacakaranlık</h2>
+            <p>Işığın solduğu, biyolüminesansın başladığı karanlık sular.</p>
+            
+            <div class="canli-grid">
+                <div class="canli-karti" data-color="ara">
+                    <h3>Goblin Köpekbalığı</h3>
+                    <p>Uzun burunlu, pembe derili ve korkutucu çeneli, nadir görülen bir tür.</p>
+                </div>
+                <div class="canli-karti" data-color="ara">
+                    <h3>Kiwa Hirsuta (Tüylü Yengeç)</h3>
+                    <p>Hidrotermal bacalara yakın yaşayan, kıllı bacaklara sahip albino yengeç.</p>
+                </div>
+                <div class="canli-karti" data-color="ara">
+                    <h3>Fener Balığı (Anglerfish)</h3>
+                    <p>Avını çekmek için alnında biyolüminesans bir ışık kullanan derin deniz avcısı.</p>
+                </div>
+                <div class="canli-karti" data-color="ara">
+                    <h3>Barreleye Balığı</h3>
+                    <p>Başının içinden yukarıya bakabilen şeffaf bir kafaya sahip tuhaf balık.</p>
+                </div>
+                 <div class="canli-karti" data-color="ara">
+                    <h3>Chauliodus (Viperfish)</h3>
+                    <p>Uzun, keskin dişlere sahip, derinlerde yaşayan, korkutucu görünümlü bir balık.</p>
+                </div>
+                <div class="canli-karti" data-color="ara">
+                    <h3>Gulper Eel (Yutucu Yılan Balığı)</h3>
+                    <p>Çok büyük ağzı sayesinde kendisinden büyük avları yutabilen esnek yılan balığı.</p>
+                </div>
+                <div class="canli-karti" data-color="ara">
+                    <h3>Comb Jelly (Taraklı Denizanası)</h3>
+                    <p>Siliaları aracılığıyla ışığı kırarak gökkuşağı efektleri oluşturan kırılgan canlılar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="derin-deniz" class="derinlik-bolumu">
+        <div class="container">
+            <h2>Batipelajik ve Abisopelajik | Sonsuz Karanlık</h2>
+            <p>Işığın ulaşmadığı, basıncın ezici olduğu, en ilginç canlıların evi.</p>
+
+            <div class="canli-grid">
+                <div class="canli-karti" data-color="derin">
+                    <h3>Chimaera (Hayalet Köpekbalığı)</h3>
+                    <p>Kıkırdaklı iskeletli, büyük gözlü, derin deniz akrabası.</p>
+                </div>
+                <div class="canli-karti" data-color="derin">
+                    <h3>Pycnogonida (Deniz Örümceği)</h3>
+                    <p>Küçük gövdeli ve çok uzun bacaklı tuhaf deniz eklembacaklıları.</p>
+                </div>
+                <div class="canli-karti" data-color="derin">
+                    <h3>Grimpoteuthis (Dumbo Ahtapot)</h3>
+                    <p>Kulak benzeri yüzgeçleriyle su altında "uçan" en derin ahtapot türü.</p>
+                </div>
+                <div class="canli-karti" data-color="derin">
+                    <h3>Anarhichas (Kurt Balığı)</h3>
+                    <p>Güçlü çeneleri ve ürkütücü görünümüyle derin soğuk suların yırtıcısı.</p>
+                </div>
+                 <div class="canli-karti" data-color="derin">
+                    <h3>Anoplogaster (Fangtooth)</h3>
+                    <p>Vücut boyutuna göre en büyük dişlere sahip, derin denizin ürkütücü balığı.</p>
+                </div>
+                <div class="canli-karti" data-color="derin">
+                    <h3>Vampire Squid (Vampir Mürekkep Balığı)</h3>
+                    <p>Adının aksine nazik bir diyetle beslenen ve mürekkep yerine biyolüminesans salgılayan canlı.</p>
+                </div>
+                <div class="canli-karti" data-color="derin">
+                    <h3>Black Seadevil (Siyah Deniz Şeytanı)</h3>
+                    <p>Dişi ve erkekleri arasında muazzam bir boyut farkı olan, siyah derili fener balığı türü.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bilgi-merkezi">
+        <div class="container">
+            <h2>OKYANUS BİLGİ VE GELİŞMELERİ</h2>
+            <p>Keşifler, koruma çalışmaları ve deniz bilimi dünyasındaki en son notlar.</p>
+
+            <div class="canli-grid">
+                <div class="canli-karti" data-color="ekstra" style="border-left: 3px solid var(--aksen-mercan);">
+                    <h4>Derin Deniz Madenciliği Endişeleri</h4>
+                    <p>Yeni bir raporda, derin deniz tabanı madenciliğinin eşsiz ekosistemler üzerindeki geri dönülmez etkileri vurgulandı ve küresel moratoryum çağrısı yapıldı.</p>
+                </div>
+                <div class="canli-karti" data-color="ekstra" style="border-left: 3px solid var(--aksen-fosfor);">
+                    <h4>Yeni Biyolüminesans Tür Keşfi</h4>
+                    <p>Pasifik Okyanusu'nun bin metre derinliğinde, ışık yayma yeteneği olan, daha önce bilinmeyen on yeni denizanası türü tespit edildi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kozmik Yolculuk | Uzay Blogu (Sade)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ======================================================= */
+        /* 1. CSS STİLLERİ (Uzay Teması ve Animasyonlar) */
+        /* ======================================================= */
+        
+        /* Arka Plan ve Galaksi Efekti */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #03001c; 
+            color: #e0e0f8;
+            margin: 0;
+            line-height: 1.6;
+            
+            /* GÜZEL VE RENKLİ ARKA PLAN (Optimize Galaksi) */
+            background-image: 
+                radial-gradient(circle at 10% 80%, #5d00a3 1%, transparent 30%),
+                radial-gradient(circle at 90% 20%, #ff0073 1%, transparent 30%),
+                radial-gradient(circle at 50% 50%, #00ffff 1%, transparent 50%),
+                repeating-radial-gradient(circle at 50% 50%, #ffffff10 0.5px, transparent 1px);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* Başlıklar */
+        h1, h2, h3 {
+            color: #76ff03; /* Neon yeşili vurgu */
+            text-align: center;
+        }
+        h1 {
+            font-size: 3.8em;
+            text-shadow: 0 0 20px rgba(118, 255, 3, 0.9);
+        }
+
+        /* Animasyonlar (Performans İçin GPU Hızlandırma) */
+        @keyframes rotate {
+            100% { transform: rotate(360deg) translateZ(0); } 
+        }
+        @keyframes pulse {
+            0% { transform: scale(1) translateZ(0); }
+            100% { transform: scale(1.1) translateZ(0); }
+        }
+        
+        /* ======================================================= */
+        /* 2. ANA BÖLÜMLER VE DÜZEN */
+        /* ======================================================= */
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5); 
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .section-container {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(15, 15, 40, 0.9);
+            border-radius: 10px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        }
+        
+        /* ======================================================= */
+        /* 3. KART VE BLOG STİLLERİ */
+        /* ======================================================= */
+        
+        .info-cards, .astronot-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap; 
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(30, 30, 60, 0.9);
+            border: 2px solid #4a90e2;
+            border-radius: 15px;
+            padding: 25px;
+            width: 30%; 
+            min-width: 250px;
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.03) translateZ(0); 
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 1);
+        }
+        
+        .blog-post {
+            background: rgba(40, 40, 70, 0.95);
+            border-left: 5px solid #76ff03;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+        
+        /* ======================================================= */
+        /* 4. DİĞERLERİ VE MOBİL UYUM */
+        /* ======================================================= */
+
+        /* Mobil Uyum */
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2em; }
+            .card, .astronot-card { width: 100%; margin-bottom: 20px; }
+        }
+        
+        /* Scroll Animasyonu */
+        html { scroll-behavior: smooth; }
+
+        /* Gezegen Animasyon CSS'leri */
+        #planet-container { width: 300px; height: 300px; position: absolute; bottom: 50px; border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 50%; animation: rotate 40s linear infinite; }
+        #small-planet { width: 40px; height: 40px; background: radial-gradient(circle, #76ff03, #4b9200); border-radius: 50%; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 15px #76ff03; animation: pulse 2s infinite alternate; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-section">
+        <h1>KOZMİK YOLCULUK</h1>
+        <p>Evrenin derinliklerinden en yeni, en ilginç ve en güncel haberler burada.</p>
+        
+        <div id="planet-container">
+            <div id="small-planet"></div>
+        </div>
+    </header>
+
+    <section id="gezegenler" class="section-container">
+        <h2>🪐 Gezegenler & Kritik Keşifler</h2>
+
+        <div class="info-cards">
+            <div class="card">
+                <h3>Mars'ta Oksijen Üretimi</h3>
+                <p>
+                    **Kızıl Gezegen** Mars'ta yaşam arayışının merkezinde yer alan MOXIE deneyi, atmosferden solunabilir **oksijen** üreterek, gelecekteki insanlı **kolonileşme** görevleri için kritik bir teknolojik eşiği aştı.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>6.000'den Fazla Ötegezegen</h3>
+                <p>
+                    **Güneş Sistemi** dışındaki **gezegenler**in sayısı 6.000'i geçti. Özellikle "yaşanabilir bölge"de yer alan kayalık gezegenlerde **dünya dışı yaşam** izleri aranmaktadır.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Satürn'ün Yeni Uyduları</h3>
+                <p>
+                    Gezegenlerin kralı **Satürn**'ün yörüngesinde 62 yeni uydu keşfedildi. Bu keşifle **Satürn**, toplam 146 uydu ile en çok uyduya sahip gezegen unvanını **Jüpiter**'den geri aldı.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="astronotlar" class="section-container">
+        <h2>🧑‍🚀 Uzay Keşfinde Öncü Astronotlar</h2>
+        
+        <div class="astronot-container">
+            <div class="astronot-card blog-post">
+                <h3>Alper Gezeravcı (Türkiye)</h3>
+                <p>Türkiye'nin ilk **astronotu** olarak Uluslararası Uzay İstasyonu'nda (ISS) 13 farklı bilimsel deney gerçekleştirmiştir. Türkiye'nin uzay programının **öncüsü**.</p>
+            </div>
+            <div class="astronot-card blog-post">
+                <h3>Peggy Whitson (ABD)</h3>
+                <p>Uzayda en çok zaman geçiren (kümülatif) Amerikalı **astronot** olmasının yanı sıra, en çok uzay yürüyüşü yapan kadın rekorunu da elinde tutuyor.</p>
+            </div>
+            <div class="astronot-card blog-post">
+                <h3>Valentina Tereshkova (SSCB)</h3>
+                <p>Uzaya çıkan ilk kadın **astronot** (Kozmonot). 1963 yılında Vostok 6 göreviyle tarihe geçti ve uzay yolculuğunun kadınlar için de kapılarını açtı.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="haberler" class="section-container">
+        <h2>📰 Son Uzay Haberleri</h2>
+
+        <article class="blog-post">
+            <h3>Mars'ta Sürdürülebilir Oksijen Üretimi Başarısı: Kolonileşmeye Doğru Büyük Adım</h3>
+            <p class="summary">**İlginç:** NASA'nın **Mars**'taki MOXIE teknolojisi, **Kızıl Gezegen** atmosferini kullanarak **oksijen** üreterek, gelecekteki insanlı görevlerde hayati bir destek sistemi için zemin hazırladı.</p>
+        </article>
+        
+        <article class="blog-post">
+            <h3>JWST ve Ötegezegenler: Güneş Sistemi Ötesinde 6.000 Gezegen Keşfedildi</h3>
+            <p class="summary">**Güncel:** Son veriler, keşfedilen ve doğrulanan **ötegezegen** sayısının 6.000'i geçtiğini gösteriyor. **James Webb Uzay Teleskobu (JWST)**, bu gezegenlerin atmosferlerini analiz ederek **dünya dışı yaşam** izleri arıyor.</p>
+        </article>
+
+        <article class="blog-post">
+            <h3>Rekor Büyüme Hızı: Samanyolu'nda Gözlemlenen 'Açgözlü' Kara Delik</h3>
+            <p class="summary">**Gerçek ve İlginç:** **Samanyolu**'nun uzak bir köşesinde, inanılmaz bir hızla kütle edinen devasa bir **kara delik** gözlemlendi. Bu **kütle çekimi** canavarı, kozmik evrimi anlamamız için kritik bilgiler sunuyor.</p>
+        </article>
+
+        <article class="blog-post">
+            <h3>Uzay Çöpleri Tehdidi Artıyor: Otobüs Büyüklüğündeki Uydu Pasifik'e Çakıldı</h3>
+            <p class="summary">**Kritik:** Kullanım ömrü dolmuş bir Avrupa **uydusu**, kontrolsüz bir şekilde **Dünya** atmosferine girdi. **Uzay çöpü** sorunu, yörünge güvenliği için en büyük tehditlerden biri olmaya devam ediyor.</p>
+        </article>
+
+    </section>
+
+    <footer>
+        <p>Kozmik Yolculuk &bull; Bilim ve Astronomi Blogu</p>
+        <p>© 2025 Kozmik Yolculuk | Mobil Uyumlu Tasarım</p>
+    </footer>
+
+</body>
+</html>
