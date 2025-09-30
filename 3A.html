@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zeka ve Robotik Macera</title>
+    <style>
+        /* === Genel Stil ve Sıfırlama === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Courier New', monospace; /* Teknoloji ve kodlamayı çağrıştıran font */
+        }
+
+        body {
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* === Tema Değişkenleri ve Varsayılan (Koyu Tema) === */
+        :root {
+            --bg-color: #0c0f16;
+            --text-color: #e0e6f0;
+            --primary-color: #00eaff; /* Neon Mavi */
+            --secondary-color: #9c27b0; /* Mor Vurgu */
+            --secondary-bg: #161a23;
+            --shadow-color: rgba(0, 234, 255, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            /* Robotik Arka Plan Deseni */
+            background-image: 
+                linear-gradient(to right, rgba(0, 234, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 234, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* === Açık Tema (Light Mode) === */
+        body.light-mode {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --primary-color: #00bcd4; /* Canlı Mavi */
+            --secondary-color: #ff5722; /* Turuncu Vurgu */
+            --secondary-bg: #f5f5f5;
+            --shadow-color: rgba(0, 188, 212, 0.4);
+            background-image: 
+                linear-gradient(to right, rgba(0, 188, 212, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 188, 212, 0.1) 1px, transparent 1px);
+        }
+
+        /* === Animasyonlar ve Geçişler === */
+        section {
+            padding: 80px 5%;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            position: relative;
+            z-index: 2; /* İçeriği arka planın üstüne getir */
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* === Header ve Navigasyon === */
+        header {
+            background-color: rgba(12, 15, 22, 0.95); /* Yarı saydamlık */
+            padding: 10px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .light-mode header {
+             background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-shadow: 0 0 5px var(--primary-color); /* Neon etki */
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        /* Tema Değiştirme Butonu */
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.5em;
+            color: var(--primary-color);
+            border: none;
+            background: none;
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        /* === Ana Bölüm (Hero) === */
+        #ana {
+            padding-top: 80px;
+            background: none; /* Arka plan deseni body'de */
+            text-align: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #ana h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            animation: typewrite 3s steps(30, end) forwards, blink-caret .75s step-end infinite;
+            overflow: hidden; 
+            border-right: .15em solid var(--secondary-color); /* İmleç */
+            white-space: nowrap; 
+            width: 0;
+        }
+
+        #ana p {
+            font-size: 1.8em;
+            max-width: 800px;
+            margin: 20px auto 30px;
+        }
+
+        .cta-button {
+            padding: 15px 35px;
+            background-color: var(--secondary-color);
+            color: var(--bg-color);
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 0 15px var(--secondary-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        /* === İçerik Bölümleri Ortak Stil === */
+        h2 {
+            font-size: 3em;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            text-shadow: 0 0 8px rgba(0, 234, 255, 0.5);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: var(--secondary-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border-left: 5px solid var(--secondary-color);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .content-box:hover {
+            transform: scale(1.03); 
+            box-shadow: 0 0 25px var(--primary-color);
+        }
+
+        .content-box h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            text-shadow: 0 0 5px var(--secondary-color);
+        }
+        
+        /* === Footer === */
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px 5%;
+            border-top: 3px solid var(--primary-color);
+        }
+
+
+        /* === KEYFRAMES Animasyonları === */
+        /* Yazı Yazma Efekti */
+        @keyframes typewrite {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* İmleç Yanıp Sönme Efekti */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--secondary-color); }
+        }
+        
+        /* Buton Nabız Efekti */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 var(--secondary-color); }
+            70% { box-shadow: 0 0 0 20px rgba(156, 39, 176, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0); }
+        }
+
+        /* === Mobil Uyumluluk === */
+        @media (max-width: 768px) {
+             #ana h1 {
+                font-size: 2.5em;
+                animation: typewrite 2s steps(20, end) forwards, blink-caret .75s step-end infinite;
+            }
+             h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#ana" class="logo">🧠 YZ & ROBOTİK LAB</a>
+        <nav>
+            <a href="#neler-yapar">Robotik</a>
+            <a href="#yapay-zeka">Yapay Zeka</a>
+            <a href="#gelecek">Kodlama</a>
+            <button class="theme-toggle" id="theme-toggle" title="Temayı Değiştir">
+                <span id="theme-icon">🔆</span>
+            </button>
+        </nav>
+    </header>
+
+    <section id="ana" class="visible">
+        <h1>Kodlarla Düşünen Dünya</h1>
+        <p>Yapay Zekanın beyni robotların kalbidir. Bu ikilinin nasıl çalıştığını, oynadığını ve öğrendiğini keşfet!</p>
+        <a href="#yapay-zeka" class="cta-button">YZ'NİN SIRRINI ÇÖZ</a>
+    </section>
+    
+    <section id="neler-yapar">
+        <h2>Robotlar Ne İşe Yarar? (Hareketli Zekalar)</h2>
+        <div class="grid-container">
+            <div class="content-box">
+                <h3>Felaket Kurtarıcıları</h3>
+                <p>İnsanların ulaşamadığı binalara girer, depremde veya yangında hayat kurtarır. Onlar **sıfır riskli** arama ekibidir!</p>
+            </div>
+            <div class="content-box">
+                <h3>Robot Sanatçılar</h3>
+                <p>Resim yapabilir, müzik besteleyebilir! En karmaşık tasarımları bile **kusursuz fırça darbeleriyle** hayata geçirebilirler.</p>
+            </div>
+            <div class="content-box">
+                <h3>Sualtı Kaşifleri</h3>
+                <p>Denizlerin derinliklerindeki hazineleri ve bilinmeyen canlıları keşfeder. **Basınca dayanıklı** zırhları sayesinde okyanusları evleri gibi gezerler.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="yapay-zeka">
+        <h2>Yapay Zeka (YZ): Robotların Beyni!</h2>
+        <div class="grid-container">
+            <div class="content-box">
+                <h3>Nasıl Öğrenir? (Makine Öğrenimi)</h3>
+                <p>YZ, tıpkı senin gibi, **deneme-yanılma** ile öğrenir. Binlerce fotoğrafı görür ve neyin kedi neyin köpek olduğunu **kendi kendine** çözer. Buna **Makine Öğrenimi** denir.</p>
+            </div>
+            <div class="content-box">
+                <h3>Kendi Kararını Verir mi?</h3>
+                <p>Evet! Programcılar ona kurallar koyar, ama o bu kuralları kullanarak **en iyi yolu** bulur. Otomobil kullanıyorsa, aniden frene basıp basmamaya kendisi karar verir.</p>
+            </div>
+            <div class="content-box">
+                <h3>İnsan Gibi Konuşmak (NLP)</h3>
+                <p>Sana cevap veren sanal asistanlar (Siri, Google Asistan) YZ'nin bir parçasıdır. Yazdıklarını ve söylediklerini anlar ve **mantıklı** cevaplar üretir. Buna **Doğal Dil İşleme** denir.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gelecek">
+        <h2>Geleceği Kodlama: YZ ve Senin Rolün</h2>
+        <div class="grid-container">
+            <div class="content-box">
+                <h3>Her Şey Kod</h3>
+                <p>Robotların her hareketi, YZ'nin her kararı **kodlardan** gelir. Kodlama, onlara hayat veren sihirli dildir. Sen de robot yapabilirsin!</p>
+            </div>
+            <div class="content-box">
+                <h3>Otonom Şehirler</h3>
+                <p>Gelecekte trafik lambaları, otobüsler ve hatta çöplerimizi toplayan araçlar birbiriyle konuşacak. Bunu YZ ile **kodlanmış akıllı sistemler** sağlayacak.</p>
+            </div>
+            <div class="content-box">
+                <h3>Kişisel Robot Yoldaşlar</h3>
+                <p>Sadece ev işi değil, duygusal olarak da sana destek olacak, oyunlar oynayacak ve sohbet edecek **insansı robotlar** çok yakında hayatımıza girecek.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>YZ & ROBOTİK LAB &copy; 2025 - Kodlarla Düşün, Geleceği Tasarla.</p>
+        <p>Unutma: Kodlama, süper gücündür!</p>
+    </footer>
+
+    <script>
+        // Kaydırma Animasyonu (Önceki versiyondan alınmıştır)
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll('section');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                if (section.id !== 'ana') {
+                    observer.observe(section);
+                }
+            });
+
+            // Tema Değiştirme Fonksiyonu (Önceki versiyondan alınmıştır)
+            const toggleButton = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light-mode') {
+                document.body.classList.add('light-mode');
+                themeIcon.textContent = '🌙'; 
+            } else {
+                 themeIcon.textContent = '🔆'; 
+            }
+
+            toggleButton.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                
+                if (document.body.classList.contains('light-mode')) {
+                    localStorage.setItem('theme', 'light-mode');
+                    themeIcon.textContent = '🌙'; 
+                } else {
+                    localStorage.setItem('theme', 'dark-mode');
+                    themeIcon.textContent = '🔆';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Süper Arabalar ve Parlak Bilgiler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Değişkenleri - TEMEL RENK PALETLERİ */
+        :root {
+            /* DARK MODE (Varsayılan) */
+            --bg-dark: #1e1e2f; /* Derin mor/mavi arka plan */
+            --text-dark: #FFFFFF;
+            --primary-dark: #00ADB5; /* Turkuaz vurgu */
+            --accent-dark: #FF6B6B; /* Parlak kırmızı/kalp rengi */
+            --card-dark: #2c2c44;
+            --star-color: #ffe4e1; /* Soluk pembe/beyaz yıldız */
+            --header-gradient-start: #1e1e2f;
+            --header-gradient-end: #2c2c44;
+        }
+        
+        .light-mode {
+            /* LIGHT MODE */
+            --bg-dark: #f0f0f5; /* Açık gri/beyaz arka plan */
+            --text-dark: #333333;
+            --primary-dark: #0077b6; /* Koyu mavi vurgu */
+            --accent-dark: #e63946; /* Canlı kırmızı */
+            --card-dark: #ffffff;
+            --star-color: #ddd;
+            --header-gradient-start: #f0f0f5;
+            --header-gradient-end: #ffffff;
+        }
+
+        /* GENEL STİLLER */
+        body {
+            font-family: 'Poppins', sans-serif; /* Modern font */
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            transition: background-color 0.5s, color 0.5s;
+            overflow-x: hidden;
+        }
+
+        /* YILDIZ ARKA PLAN EFEKTİ */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: var(--star-color);
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out alternate;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.8); }
+        }
+
+        /* YENİ ARABA İKON ANİMASYONU */
+        @keyframes bounceAndRotate {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(10deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(-10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .car-icon-container {
+            margin: 0 auto 20px;
+            width: 100px;
+            height: 70px; /* Araba şekline göre ayarlandı */
+            position: relative;
+        }
+
+        .car-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px; /* Araba ikonu boyutu */
+            color: var(--primary-dark); /* Araba rengi */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+            animation: bounceAndRotate 3s ease-in-out infinite;
+        }
+
+        /* BAŞLIK (HEADER) */
+        .header {
+            background: linear-gradient(45deg, var(--header-gradient-start), var(--header-gradient-end));
+            color: var(--text-dark);
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            position: relative; /* Tema butonu için */
+        }
+
+        .header h1 {
+            font-size: 3em;
+            color: var(--accent-dark);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        /* TEMA DEĞİŞTİRME BUTONU */
+        #theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-dark); /* Başlangıç rengi */
+            color: var(--text-dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.4s ease-in-out; /* Yumuşak geçiş */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        #theme-toggle:hover {
+            opacity: 0.9;
+        }
+
+        /* İÇERİK ve KARTLAR */
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .info-card {
+            background-color: var(--card-dark);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--primary-dark);
+            transition: transform 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-card h2 {
+            color: var(--accent-dark);
+            font-size: 1.8em;
+            border-bottom: 3px dotted var(--primary-dark);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-card p strong {
+            color: var(--primary-dark); 
+        }
+
+        /* KALP DESENİ EFEKTİ */
+        .heart {
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+            color: var(--accent-dark);
+            font-size: 2em;
+            opacity: 0.3;
+            user-select: none;
+            transition: transform 0.5s;
+        }
+        .info-card:nth-child(even) .heart {
+            left: 10px;
+            right: auto;
+        }
+        .info-card:hover .heart {
+            transform: scale(1.5) rotate(15deg);
+        }
+
+        /* MOBİL UYUMLULUK */
+        @media (max-width: 600px) {
+            .header {
+                padding: 30px 10px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .car-icon {
+                font-size: 45px;
+            }
+            #theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body id="page-body">
+
+    <div class="stars"></div>
+
+    <button id="theme-toggle">Aydınlık Mod 💡</button>
+
+    <div class="header">
+        <div class="car-icon-container">
+            <span class="car-icon">🚗</span> 
+        </div>
+        <h1>✨ Otomobil Macerası Başlıyor! ✨</h1>
+        <p>Hızla dönen tekerlekler, teknoloji ve eğlenceli bilgiler!</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="info-card">
+            <h2>1. Arabanın Burnundaki Hava 🌬️</h2>
+            <p><strong>Formula 1</strong> arabaları o kadar hızlı gider ki, burnu denilen ön kısımdaki kanatlar arabanın yere yapışmasını sağlayan büyük bir **hava gücü** oluşturur. Bu güç, arabanın kendi ağırlığının **iki katı** kadar olabilir!</p>
+            <span class="heart">❤️</span>
+        </div>
+
+        <div class="info-card">
+            <h2>2. Otobanları Kim Buldu? 🛣️</h2>
+            <p>Dünyanın en eski ve büyük otoyol ağlarından biri olan **Alman Otobanları**, trafiği kesintisiz tutmak için yapılmıştır. Eskiden bu yollar, hızlı yarışlar ve denemeler için de kullanılırdı. </p>
+            <span class="heart">💖</span>
+        </div>
+
+        <div class="info-card">
+            <h2>3. Elektrikli Arabaların Sessizliği 🤫</h2>
+            <p><strong>Elektrikli arabalar</strong> (EV), içten yanmalı motorlu arabalara göre çok daha sessizdir. Hatta bazı ülkelerde, çok sessiz oldukları için yayaların duyması amacıyla **düşük hızlarda yapay motor sesleri** çıkarmaları zorunludur!</p>
+            <span class="heart">🌟</span>
+        </div>
+        
+        <div class="info-card">
+            <h2>4. Aynadaki Harika Yazı ✍️</h2>
+            <p>Çoğu arabanın sağ yan aynasında "<strong>Nesneler göründüğünden daha yakındır</strong>" yazar. Bu, aynanın yüzeyinin geniş açılı (bombeli) olmasından kaynaklanır ve sürücülerin güvenliğini artırmak için konulmuştur.</p>
+            <span class="heart">💛</span>
+        </div>
+
+    </div>
+
+    <script>
+        const body = document.getElementById('page-body');
+        const toggleButton = document.getElementById('theme-toggle');
+        const starsContainer = document.querySelector('.stars');
+        
+        // Rastgele renk paletleri
+        const colorPalettes = [
+            { primary: '#FF5733', accent: '#33FF57', bg: '#333344', card: '#444455', text: '#FFFFFF', star: '#FFDDC1', headerStart: '#333344', headerEnd: '#444455' }, // Canlı Portakal
+            { primary: '#8A2BE2', accent: '#FFD700', bg: '#2f2f3f', card: '#3f3f4f', text: '#E0FFFF', star: '#E0FFFF', headerStart: '#2f2f3f', headerEnd: '#3f3f4f' }, // Mor & Altın
+            { primary: '#00CED1', accent: '#FF69B4', bg: '#102027', card: '#1D3540', text: '#E0F7FA', star: '#ADD8E6', headerStart: '#102027', headerEnd: '#1D3540' }, // Turkuaz & Pembe
+            { primary: '#3CB371', accent: '#FF4500', bg: '#2F4F4F', card: '#3A5F5F', text: '#F0FFF0', star: '#F0FFF0', headerStart: '#2F4F4F', headerEnd: '#3A5F5F' }, // Deniz Yeşili & Turuncu
+            { primary: '#BA55D3', accent: '#ADFF2F', bg: '#202020', card: '#303030', text: '#FFFFFF', star: '#E6E6FA', headerStart: '#202020', headerEnd: '#303030' }  // Menekşe & Limon Yeşili
+        ];
+
+        let currentPaletteIndex = -1; // -1 başlangıç için, ilk tıklamada rastgele palete geçecek
+
+        // Yıldızları oluşturma fonksiyonu
+        function createStars(count) {
+            starsContainer.innerHTML = ''; // Önceki yıldızları temizle
+            for (let i = 0; i < count; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                star.style.animationDuration = `${Math.random() * 5 + 3}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Temayı ve renkleri güncelleme fonksiyonu
+        function applyTheme(palette) {
+            body.style.setProperty('--bg-dark', palette.bg);
+            body.style.setProperty('--text-dark', palette.text);
+            body.style.setProperty('--primary-dark', palette.primary);
+            body.style.setProperty('--accent-dark', palette.accent);
+            body.style.setProperty('--card-dark', palette.card);
+            body.style.setProperty('--star-color', palette.star);
+            document.documentElement.style.setProperty('--header-gradient-start', palette.headerStart);
+            document.documentElement.style.setProperty('--header-gradient-end', palette.headerEnd);
+            toggleButton.style.backgroundColor = palette.primary; // Buton rengini de palete uydur
+            toggleButton.style.color = palette.text;
+        }
+
+        // Başlangıç temasını ayarla (varsayılan dark mode'u kullanır)
+        const defaultDarkModePalette = { 
+            primary: '#00ADB5', accent: '#FF6B6B', bg: '#1e1e2f', card: '#2c2c44', text: '#FFFFFF', star: '#ffe4e1', headerStart: '#1e1e2f', headerEnd: '#2c2c44' 
+        };
+        applyTheme(defaultDarkModePalette);
+        
+        // Tema değiştirme fonksiyonu
+        toggleButton.addEventListener('click', () => {
+            let newPaletteIndex;
+            do {
+                newPaletteIndex = Math.floor(Math.random() * colorPalettes.length);
+            } while (newPaletteIndex === currentPaletteIndex); // Bir öncekiyle aynı olmasın
+
+            currentPaletteIndex = newPaletteIndex;
+            const selectedPalette = colorPalettes[currentPaletteIndex];
+
+            // Light/Dark mod geçişi
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                toggleButton.textContent = 'Aydınlık Mod 💡';
+            } else {
+                body.classList.add('light-mode');
+                toggleButton.textContent = 'Karanlık Mod 🌙';
+            }
+
+            // Rastgele renk paletini uygula
+            applyTheme(selectedPalette);
+            createStars(50); // Yeni renklerle yıldızları yeniden oluştur
+        });
+
+        // Sayfa yüklendiğinde yıldızları ekle
+        createStars(50); // 50 adet yıldız ekliyor
+    </script>
+
+</body>
+</html>

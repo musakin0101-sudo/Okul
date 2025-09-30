@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌳 Blok Dünyası Portalı | Minecraft İpuçları ve Quiz</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================================== */
+        /* 1. MINECRAFT TEMALI RENK DEĞİŞKENLERİ & MODLAR */
+        /* ==================================== */
+        :root {
+            /* Gündüz Modu (Çimen Bloğu) */
+            --bg-color: #79a349;
+            --text-color: #333;
+            --card-bg: #fdf6e3;
+            --primary-color: #3a531e; /* Koyu Çimen Yeşili */
+            --secondary-color: #8b4513; /* Toprak Kahvesi */
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --font-main: 'VT323', monospace;
+        }
+        body.dark-mode {
+            /* Gece Modu (Mağara) */
+            --bg-color: #1a1a1a;
+            --text-color: #c0c0c0;
+            --card-bg: #2d2d2d;
+            --primary-color: #4a4a4a;
+            --secondary-color: #a0522d;
+            --shadow-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ==================================== */
+        /* 2. GENEL STİLLER & MOBİL UYUMLULUK   */
+        /* ==================================== */
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
+            line-height: 1.5;
+            font-size: 1.2em;
+        }
+        .container {
+            padding: 30px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .block {
+            background-color: var(--card-bg);
+            border: 4px solid var(--secondary-color);
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 8px 8px 0px var(--shadow-color);
+            transition: background-color 0.5s, border-color 0.5s;
+        }
+        h2, h3 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--primary-color);
+            text-align: center;
+            border-bottom: 3px dashed var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* HEADER & NAVİGASYON */
+        .header {
+            background-color: var(--primary-color); color: white; padding: 20px;
+            box-shadow: 0 5px 0px var(--shadow-color); position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 4px solid var(--secondary-color);
+        }
+        .header h1 { font-family: 'Press Start 2P', cursive; font-size: 1.4em; text-shadow: 2px 2px #000; margin: 0;}
+        #mode-toggle {
+            background: var(--secondary-color); border: 3px solid white; color: white; padding: 8px 12px;
+            cursor: pointer; font-family: var(--font-main); font-size: 1em; box-shadow: 2px 2px #000;
+        }
+        .nav ul {
+            list-style: none; padding: 0; margin: 0; display: flex; justify-content: center;
+            background-color: var(--secondary-color); border-bottom: 4px solid var(--secondary-color);
+        }
+        .nav ul li a {
+            display: block; padding: 12px 15px; text-decoration: none; color: white;
+            font-weight: bold; transition: background-color 0.3s; border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .nav ul li a:hover { background-color: var(--primary-color); text-decoration: underline;}
+
+        /* ANA SAYFA - HERO */
+        .hero-section {
+            background-color: var(--secondary-color); color: white; text-align: center;
+            padding: 50px 20px; margin-bottom: 40px; box-shadow: 8px 8px 0px var(--shadow-color);
+            border: 4px solid var(--primary-color);
+        }
+        .hero-section p { font-size: 1.5em; }
+
+        /* İÇERİK KARTLARI (GRID) */
+        .content-grid {
+            display: grid;
+            /* Mobil uyum: 280px altı tek sütun */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px;
+        }
+        .content-card {
+            background-color: var(--card-bg); border: 3px solid var(--primary-color);
+            padding: 15px; box-shadow: 4px 4px 0px var(--shadow-color);
+        }
+        .content-card h3 { font-size: 1.1em; border-bottom: 2px dotted var(--secondary-color); }
+
+        /* QUIZ STİLLERİ VE İŞLEVSELLİK VURGULARI */
+        .quiz-question {
+            margin-bottom: 20px; padding: 15px; border: 2px solid var(--primary-color);
+            background-color: #eee8d5; color: var(--text-color);
+        }
+        .quiz-question p { font-weight: bold; color: var(--secondary-color); margin-top: 0;}
+        .quiz-question label {
+            display: block; margin: 10px 0; cursor: pointer; padding: 5px;
+        }
+        .correct { background-color: #4CAF50 !important; color: white; border: 2px solid darkgreen;}
+        .incorrect { background-color: #f44336 !important; color: white; border: 2px solid darkred;}
+        .quiz-results {
+            margin-top: 20px; padding: 15px; border: 4px solid var(--primary-color);
+            background-color: var(--card-bg); font-weight: bold;
+        }
+        .quiz-submit button {
+            background-color: var(--primary-color); color: white; padding: 15px 30px;
+            border: 3px solid white; cursor: pointer; font-family: 'Press Start 2P', cursive;
+            font-size: 1em; box-shadow: 4px 4px 0px #000;
+        }
+
+        /* MOBİL UYUMLULUK İÇİN KRİTİK AYARLAR */
+        @media (max-width: 600px) {
+            .nav ul { flex-wrap: wrap; }
+            .nav ul li { width: 50%; text-align: center; }
+            .header { flex-direction: column; }
+            .header h1 { font-size: 1.2em; }
+            .hero-section { padding: 30px 10px; }
+            .content-grid { grid-template-columns: 1fr; } /* Tüm içerik tek sütun */
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <header class="header">
+        <h1>⛏️ BLOK DÜNYASI PORTALI</h1>
+        <button id="mode-toggle">🌑 Mağara Modu</button>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="#anasayfa">ANA SAYFA</a></li>
+            <li><a href="#madenler">YENİ MADENLER</a></li>
+            <li><a href="#crafting">CRAFT İPUÇLARI</a></li>
+            <li><a href="#moblar">CANAVAR REHBERİ</a></li> <li><a href="#quiz">EFSANE QUIZ</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+
+        <section id="anasayfa" class="hero-section">
+            <h2 style="color: white; border-color: white;">HOŞ GELDİN MACERACI!</h2>
+            <p>Gizli blokları, efsanevi madenleri ve en ölümcül düşmanları keşfetmeye hazır mısın? Dünyanı inşa etmeye buradan başla!</p>
+            <a href="#quiz" style="color: yellow; font-weight: bold; text-decoration: underline;">Hemen Quiz'i Çöz, Bilgini Kanıtla!</a>
+        </section>
+
+        <section id="madenler" class="block">
+            <h2>💎 EN YENİ & NADİR MADENLER</h2>
+            <div class="content-grid">
+                
+                <article class="content-card">
+                    <h3>NETHERİTE KÜLÇESİ</h3>
+                    <p>Nether'da bulunur, elmastan bile güçlü eşyalar yapmanı sağlar! **Lavda yanmaz**, bu yüzden en değerli malzemedir.</p>
+                </article>
+
+                <article class="content-card">
+                    <h3>HAM MADENLER</h3>
+                    <p>Demir, altın ve bakırı ham halde çıkarırsın. Bu, fırınlarda **daha verimli pişirme** ve daha az kömür harcama demektir!</p>
+                </article>
+
+                <article class="content-card">
+                    <h3>BAKIR BLOKLARI</h3>
+                    <p>Yeni bir inşaat malzemesidir. Zamanla rengi değişir (**yeşillenir**). Binalarına doğal ve yaşlı bir görünüm katabilirsin.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="crafting" class="block">
+            <h2>🔨 GİZLİ CRAFT İPUÇLARI</h2>
+            <div class="content-grid">
+                
+                <article class="content-card">
+                    <h3>YAPIŞKAN PİSTON (STICKY PISTON)</h3>
+                    <p>Normal piston + **Balçık Topu** (Slimeball) ile yapılır. Blokları hem itebilir hem de geri çekebilir. Gizli kapılar için ideal!</p>
+                </article>
+
+                <article class="content-card">
+                    <h3>GİZLİ IŞIK KAYNAĞI</h3>
+                    <p>**Deniz Feneri (Conduit)** blokunu su altında kullan, hem etrafı aydınlat hem de su altında daha hızlı kaz! Çevresine deniz prizması koymalısın.</p>
+                </article>
+
+                <article class="content-card">
+                    <h3>CEPHANELİK STANDI (ARMOR STAND)</h3>
+                    <p>Çubuklar (Sticks) kullanarak yapılır. En iyi zırhını sergilemek ve **evinini süslemek** için harika bir dekorasyon aracıdır.</p>
+                </article>
+            </div>
+        </section>
+        
+        <section id="moblar" class="block">
+            <h2 style="color: #f44336; border-color: #f44336;">💀 EN TEHLİKELİ MOBLAR & İPUÇLARI</h2>
+            <div class="content-grid">
+                
+                <article class="content-card">
+                    <h3 style="color: #f44336;">CREEPER (SÜRÜNÜCÜ)</h3>
+                    <p>⚠️ **Taktik:** Onu görünce hemen geri geri koş ve **2-3 blok uzaklıktan** kılıcınla vur. Vur-Kaç tekniği patlamadan kurtarır.</p>
+                </article>
+
+                <article class="content-card">
+                    <h3 style="color: #f44336;">ENDERMAN (UZUN ADAM)</h3>
+                    <p>👀 **Sırrı:** Ona bakarsan sinirlenir! Ona saldırmadan önce **başlığına Balkabağı** takarsan, seni takip etse bile saldırmaz.</p>
+                </article>
+
+                <article class="content-card">
+                    <h3 style="color: #f44336;">PHANTOM (HAYALET)</h3>
+                    <p>🌙 **Zayıflığı:** Günlerce uyumazsanız size saldırır. **Yapmanız gereken tek şey** yatağa girip uyumak. Hemen ortadan kaybolurlar!</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="quiz" class="block">
+            <h2 style="color: #9c27b0; border-color: #9c27b0;">🧠 MINECRAFT BİLGİ TESTİ!</h2>
+            <form id="quizForm" action="#">
+                
+                <div class="quiz-question" data-correct="a">
+                    <p>1. Oyundaki EN NADİR maden hangisidir?</p>
+                    <label><input type="radio" name="q1" value="a"> Zümrüt (Emerald)</label>
+                    <label><input type="radio" name="q1" value="b"> Altın (Gold)</label>
+                    <label><input type="radio" name="q1" value="c"> Elmas (Diamond)</label>
+                </div>
+
+                <div class="quiz-question" data-correct="b">
+                    <p>2. Geceleri sana görünmez bir şekilde yaklaşan, iskelete benzer, ışığa karşı hassas yaratık nedir?</p>
+                    <label><input type="radio" name="q2" value="a"> Creeper (Sürünücü)</label>
+                    <label><input type="radio" name="q2" value="b"> Enderman (Uzun Adam)</label>
+                    <label><input type="radio" name="q2" value="c"> Zombie (Zombi)</label>
+                </div>
+
+                <div class="quiz-question" data-correct="b">
+                    <p>3. 1 adet kova (bucket) yapmak için kaç adet demir külçesine ihtiyacın vardır?</p>
+                    <label><input type="radio" name="q3" value="a"> 2 adet</label>
+                    <label><input type="radio" name="q3" value="b"> 3 adet</label>
+                    <label><input type="radio" name="q3" value="c"> 4 adet</label>
+                </div>
+
+                <div class="quiz-question" data-correct="c">
+                    <p>4. Sadece su altında bulunan, üç dişli mızrak (trident) düşürebilen yaratık hangisidir?</p>
+                    <label><input type="radio" name="q4" value="a"> Guardian (Koruyucu)</label>
+                    <label><input type="radio" name="q4" value="b"> Dolphin (Yunus)</label>
+                    <label><input type="radio" name="q4" value="c"> Drowned (Boğulmuş Zombi)</label>
+                </div>
+
+                <div class="quiz-submit">
+                    <button type="submit">Cevapları Madene Gönder!</button>
+                </div>
+            </form>
+            
+            <div id="quizResult" class="quiz-results" style="display: none;"></div>
+        </section>
+        
+    </main>
+
+    <footer class="footer" style="background-color: var(--primary-color); color: white; text-align: center; padding: 15px; margin-top: 50px; border-top: 4px solid var(--secondary-color);">
+        <p>⭐ Blok Dünyası Topluluğu &copy; 2025 | Kodla, Keşfet, Hayatta Kal!</p>
+    </footer>
+
+    <script>
+        // QUIZ İŞLEVSELLİĞİ
+        const correctAnswers = {
+            q1: 'a', q2: 'b', q3: 'b', q4: 'c'
+        };
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            const quizQuestions = document.querySelectorAll('.quiz-question');
+            const resultDiv = document.getElementById('quizResult');
+
+            quizQuestions.forEach(questionDiv => {
+                const qName = questionDiv.querySelector('input').name;
+                const selected = questionDiv.querySelector(`input[name=${qName}]:checked`);
+                const correctValue = questionDiv.dataset.correct;
+
+                // Tüm etiketlerden eski renkleri temizle
+                questionDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct', 'incorrect');
+                });
+                
+                if (selected) {
+                    const selectedValue = selected.value;
+                    const selectedLabel = selected.closest('label');
+
+                    if (selectedValue === correctValue) {
+                        score++;
+                        selectedLabel.classList.add('correct');
+                    } else {
+                        selectedLabel.classList.add('incorrect');
+                        // Doğru cevabı göstermek için işaretle
+                        questionDiv.querySelector(`input[value=${correctValue}]`).closest('label').classList.add('correct');
+                    }
+                } else {
+                    // Cevaplanmamışsa sadece doğru cevabı göster
+                    questionDiv.querySelector(`input[value=${correctValue}]`).closest('label').classList.add('correct');
+                }
+            });
+
+            // Sonucu Göster
+            const totalQuestions = Object.keys(correctAnswers).length;
+            let message = '';
+
+            if (score === totalQuestions) {
+                message = "🔥 MÜKEMMEL! Sen gerçek bir Minecraft ustasısın! Bütün soruları doğru bildin! 🏆";
+            } else if (score >= totalQuestions / 2) {
+                message = "⛏️ Fena değil! İyi bir madencisin. Skorun: " + score + "/" + totalQuestions;
+            } else {
+                message = "🌱 Başlangıç Seviyesi. Daha çok oynamalısın! Skorun: " + score + "/" + totalQuestions;
+            }
+
+            resultDiv.innerHTML = `<p>${message}</p>`;
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // RENK MODU İŞLEVSELLİĞİ
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('mode-toggle');
+            const body = document.body;
+            const currentMode = localStorage.getItem('theme');
+
+            if (currentMode === 'dark') {
+                body.classList.add('dark-mode');
+                toggleButton.textContent = '☀️ Yüzey Modu';
+            } else {
+                body.classList.remove('dark-mode');
+                toggleButton.textContent = '🌑 Mağara Modu';
+            }
+
+            toggleButton.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    toggleButton.textContent = '☀️ Yüzey Modu';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    toggleButton.textContent = '🌑 Mağara Modu';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
